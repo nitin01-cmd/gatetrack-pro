@@ -16,6 +16,8 @@ export default function Dashboard() {
   const weakTopics = getWeakTopics(data.lectures);
   const todayRevisions = getTodayRevisions(data.revisions);
   const streak = calculateStreak(data);
+  const today = getToday();
+  const overdueRevisions = data.revisions.filter(r => !r.completed && r.dueDate < today && r.status === 'Pending');
 
   // Weekly study hours
   const today = new Date();
