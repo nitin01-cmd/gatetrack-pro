@@ -108,15 +108,37 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     updateData(prev => {
       const rev = prev.revisions.find(r => r.id === id);
       if (!rev) return prev;
-      const revisions = prev.revisions.map(r => r.id === id ? { ...r, completed: true } : r);
+      const today = getToday();
+      const revisions = prev.revisions.map(r => r.id === id ? { ...r, completed: true, status: 'Completed' as const, completedDate: today } : r);
       const lectures = prev.lectures.map(l => {
         if (l.id === rev.lectureId) {
-          return { ...l, revisionCount: l.revisionCount + 1, lastRevision: getToday() };
+          return { ...l, revisionCount: l.revisionCount + 1, lastRevision: today };
         }
         return l;
       });
       return { ...prev, revisions, lectures };
     });
+  }, [updateData]);
+
+  const skipRevision = useCallback((id: string) => {
+    updateData(prev => ({
+      ...prev,
+      revisions: prev.revisions.map(r => r.id === id ? { ...r, status: 'Skipped' as const, completed: true } : r),
+    }));
+  }, [updateData]);
+
+  const rescheduleRevision = useCallback((id: string, newDate: string) => {
+    updateData(prev => ({
+      ...prev,
+      revisions: prev.revisions.map(r => r.id === id ? { ...r, dueDate: newDate, status: 'Pending' as const } : r),
+    }));
+  }, [updateData]);
+
+  const updateRevisionNotes = useCallback((id: string, notes: string) => {
+    updateData(prev => ({
+      ...prev,
+      revisions: prev.revisions.map(r => r.id === id ? { ...r, notes } : r),
+    }));
   }, [updateData]);
 
   const updateSettings = useCallback((settings: SubjectSettings[]) => {
