@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 
 export default function Dashboard() {
-  const { data, completeRevision } = useAppData();
+  const { data, completeRevision, skipRevision } = useAppData();
 
   const subjectProgress = getSubjectProgress(data.lectures, data.subjectSettings);
   const totalLectures = data.subjectSettings.reduce((s, c) => s + c.totalLectures, 0);
