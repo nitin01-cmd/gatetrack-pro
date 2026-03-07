@@ -27,6 +27,7 @@ const App = () => (
             <Route element={<AppLayout />}>
               <Route path="/" element={<Dashboard />} />
               <Route path="/lectures" element={<LectureTracker />} />
+              <Route path="/revisions" element={<RevisionManager />} />
               <Route path="/pyqs" element={<PYQTracker />} />
               <Route path="/study-logs" element={<StudyLogs />} />
               <Route path="/analytics" element={<Analytics />} />

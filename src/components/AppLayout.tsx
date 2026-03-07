@@ -9,6 +9,7 @@ import { useTheme } from '@/hooks/useTheme';
 const navItems = [
   { to: '/', icon: LayoutDashboard, label: 'Dashboard' },
   { to: '/lectures', icon: BookOpen, label: 'Lecture Tracker' },
+  { to: '/revisions', icon: CalendarCheck, label: 'Revision Manager' },
   { to: '/pyqs', icon: FileQuestion, label: 'PYQ Tracker' },
   { to: '/study-logs', icon: PenLine, label: 'Study Logs' },
   { to: '/analytics', icon: BarChart3, label: 'Analytics' },
