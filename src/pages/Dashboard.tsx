@@ -1,7 +1,9 @@
 import { useAppData } from '@/hooks/useAppData';
-import { getSubjectProgress, getWeakTopics, getTodayRevisions, calculateStreak } from '@/lib/store';
+import { getSubjectProgress, getWeakTopics, getTodayRevisions, calculateStreak, getToday } from '@/lib/store';
 import { BookOpen, CheckCircle2, Clock, TrendingUp, Flame, AlertTriangle, CalendarCheck } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
+import { Link } from 'react-router-dom';
+import { cn } from '@/lib/utils';
 
 export default function Dashboard() {
   const { data, completeRevision } = useAppData();
