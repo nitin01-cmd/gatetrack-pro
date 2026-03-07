@@ -155,6 +155,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       data, addLecture, updateLecture, deleteLecture,
       addPYQ, updatePYQ, deletePYQ,
       addStudyLog, deleteStudyLog, completeRevision,
+      skipRevision, rescheduleRevision, updateRevisionNotes,
       updateSettings, resetData,
     }}>
       {children}

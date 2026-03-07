@@ -48,6 +48,8 @@ export interface StudyLog {
   notes: string;
 }
 
+export type RevisionStatus = "Pending" | "Completed" | "Missed" | "Skipped";
+
 export interface Revision {
   id: string;
   lectureId: string;
@@ -55,7 +57,11 @@ export interface Revision {
   topic: string;
   dueDate: string;
   completed: boolean;
+  status: RevisionStatus;
   dayInterval: number; // 1, 7, 21, 60
+  revisionNumber: number; // 1-4
+  notes: string;
+  completedDate: string | null;
 }
 
 export interface SubjectSettings {

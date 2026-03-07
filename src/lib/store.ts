@@ -49,14 +49,18 @@ export function addDays(dateStr: string, days: number): string {
 
 export function createRevisions(lecture: Lecture): Revision[] {
   if (!lecture.completedDate) return [];
-  return REVISION_INTERVALS.map(interval => ({
+  return REVISION_INTERVALS.map((interval, index) => ({
     id: generateId(),
     lectureId: lecture.id,
     subject: lecture.subject,
     topic: lecture.topic,
     dueDate: addDays(lecture.completedDate!, interval),
     completed: false,
+    status: 'Pending' as const,
     dayInterval: interval,
+    revisionNumber: index + 1,
+    notes: '',
+    completedDate: null,
   }));
 }
 
