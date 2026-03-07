@@ -1,7 +1,7 @@
 import { NavLink, Outlet } from 'react-router-dom';
 import { 
   LayoutDashboard, BookOpen, FileQuestion, PenLine, 
-  BarChart3, Settings, Menu, X, Moon, Sun, Zap
+  BarChart3, Settings, Menu, X, Moon, Sun, Zap, CalendarCheck
 } from 'lucide-react';
 import { useState } from 'react';
 import { useTheme } from '@/hooks/useTheme';
@@ -9,6 +9,7 @@ import { useTheme } from '@/hooks/useTheme';
 const navItems = [
   { to: '/', icon: LayoutDashboard, label: 'Dashboard' },
   { to: '/lectures', icon: BookOpen, label: 'Lecture Tracker' },
+  { to: '/revisions', icon: CalendarCheck, label: 'Revision Manager' },
   { to: '/pyqs', icon: FileQuestion, label: 'PYQ Tracker' },
   { to: '/study-logs', icon: PenLine, label: 'Study Logs' },
   { to: '/analytics', icon: BarChart3, label: 'Analytics' },

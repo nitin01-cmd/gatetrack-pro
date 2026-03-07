@@ -1,10 +1,12 @@
 import { useAppData } from '@/hooks/useAppData';
-import { getSubjectProgress, getWeakTopics, getTodayRevisions, calculateStreak } from '@/lib/store';
+import { getSubjectProgress, getWeakTopics, getTodayRevisions, calculateStreak, getToday } from '@/lib/store';
 import { BookOpen, CheckCircle2, Clock, TrendingUp, Flame, AlertTriangle, CalendarCheck } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
+import { Link } from 'react-router-dom';
+import { cn } from '@/lib/utils';
 
 export default function Dashboard() {
-  const { data, completeRevision } = useAppData();
+  const { data, completeRevision, skipRevision } = useAppData();
 
   const subjectProgress = getSubjectProgress(data.lectures, data.subjectSettings);
   const totalLectures = data.subjectSettings.reduce((s, c) => s + c.totalLectures, 0);
@@ -14,11 +16,13 @@ export default function Dashboard() {
   const weakTopics = getWeakTopics(data.lectures);
   const todayRevisions = getTodayRevisions(data.revisions);
   const streak = calculateStreak(data);
+  const today = getToday();
+  const overdueRevisions = data.revisions.filter(r => !r.completed && r.dueDate < today && r.status === 'Pending');
 
   // Weekly study hours
-  const today = new Date();
+  const todayDate = new Date();
   const weekDays = Array.from({ length: 7 }, (_, i) => {
-    const d = new Date(today);
+    const d = new Date(todayDate);
     d.setDate(d.getDate() - (6 - i));
     const dateStr = d.toISOString().split('T')[0];
     const hours = data.studyLogs.filter(l => l.date === dateStr).reduce((s, l) => s + l.hoursStudied, 0);
@@ -74,20 +78,41 @@ export default function Dashboard() {
             <CalendarCheck className="w-5 h-5 text-primary" />
             <h3 className="font-semibold text-foreground">Today's Revision Tasks</h3>
             <span className="ml-auto text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full font-medium">{todayRevisions.length}</span>
+            {overdueRevisions.length > 0 && (
+              <span className="text-xs bg-red-500/10 text-red-500 px-2 py-0.5 rounded-full font-medium">{overdueRevisions.length} overdue</span>
+            )}
+            <Link to="/revisions" className="text-xs text-primary hover:underline ml-2">View All →</Link>
           </div>
-          {todayRevisions.length === 0 ? (
+          {todayRevisions.length === 0 && overdueRevisions.length === 0 ? (
             <p className="text-sm text-muted-foreground">No revisions due today. 🎉</p>
           ) : (
-            <div className="space-y-2 max-h-32 overflow-y-auto">
-              {todayRevisions.slice(0, 5).map(r => (
-                <div key={r.id} className="flex items-center justify-between bg-secondary/50 rounded-lg px-3 py-2">
-                  <div>
+            <div className="space-y-2 max-h-40 overflow-y-auto">
+              {overdueRevisions.slice(0, 3).map(r => (
+                <div key={r.id} className="flex items-center justify-between bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">
+                  <div className="flex items-center gap-2">
+                    <AlertTriangle className="w-3.5 h-3.5 text-red-500" />
                     <span className="text-sm font-medium text-foreground">{r.topic}</span>
-                    <span className="text-xs text-muted-foreground ml-2">({r.subject})</span>
+                    <span className="text-xs text-muted-foreground">({r.subject})</span>
+                    <span className="text-xs text-red-500">Overdue</span>
                   </div>
-                  <button onClick={() => completeRevision(r.id)} className="text-xs bg-primary text-primary-foreground px-3 py-1 rounded-md font-medium hover:opacity-90 transition-opacity">
-                    Done
-                  </button>
+                  <div className="flex gap-1">
+                    <button onClick={() => completeRevision(r.id)} className="text-xs bg-primary text-primary-foreground px-2 py-1 rounded-md font-medium hover:opacity-90 transition-opacity">Done</button>
+                    <button onClick={() => skipRevision(r.id)} className="text-xs bg-secondary text-muted-foreground px-2 py-1 rounded-md font-medium hover:opacity-90 transition-opacity">Skip</button>
+                  </div>
+                </div>
+              ))}
+              {todayRevisions.slice(0, 5).map(r => (
+                <div key={r.id} className="flex items-center justify-between bg-yellow-500/10 border border-yellow-500/20 rounded-lg px-3 py-2">
+                  <div className="flex items-center gap-2">
+                    <Clock className="w-3.5 h-3.5 text-yellow-500" />
+                    <span className="text-sm font-medium text-foreground">{r.topic}</span>
+                    <span className="text-xs text-muted-foreground">({r.subject})</span>
+                    <span className="text-xs text-yellow-500">Due Today</span>
+                  </div>
+                  <div className="flex gap-1">
+                    <button onClick={() => completeRevision(r.id)} className="text-xs bg-primary text-primary-foreground px-2 py-1 rounded-md font-medium hover:opacity-90 transition-opacity">Done</button>
+                    <button onClick={() => skipRevision(r.id)} className="text-xs bg-secondary text-muted-foreground px-2 py-1 rounded-md font-medium hover:opacity-90 transition-opacity">Skip</button>
+                  </div>
                 </div>
               ))}
             </div>
