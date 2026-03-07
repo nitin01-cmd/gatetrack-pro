@@ -1,7 +1,7 @@
 import { NavLink, Outlet } from 'react-router-dom';
 import { 
   LayoutDashboard, BookOpen, FileQuestion, PenLine, 
-  BarChart3, Settings, Menu, X, Moon, Sun, Zap
+  BarChart3, Settings, Menu, X, Moon, Sun, Zap, CalendarCheck
 } from 'lucide-react';
 import { useState } from 'react';
 import { useTheme } from '@/hooks/useTheme';
