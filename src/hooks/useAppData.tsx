@@ -13,6 +13,9 @@ interface DataContextType {
   addStudyLog: (log: Omit<StudyLog, 'id'>) => void;
   deleteStudyLog: (id: string) => void;
   completeRevision: (id: string) => void;
+  skipRevision: (id: string) => void;
+  rescheduleRevision: (id: string, newDate: string) => void;
+  updateRevisionNotes: (id: string, notes: string) => void;
   updateSettings: (settings: SubjectSettings[]) => void;
   resetData: () => void;
 }
