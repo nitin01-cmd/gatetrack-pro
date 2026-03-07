@@ -11,6 +11,7 @@ import PYQTracker from "@/pages/PYQTracker";
 import StudyLogs from "@/pages/StudyLogs";
 import Analytics from "@/pages/Analytics";
 import SettingsPage from "@/pages/SettingsPage";
+import RevisionManager from "@/pages/RevisionManager";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
