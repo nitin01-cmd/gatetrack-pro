@@ -20,9 +20,9 @@ export default function Dashboard() {
   const overdueRevisions = data.revisions.filter(r => !r.completed && r.dueDate < today && r.status === 'Pending');
 
   // Weekly study hours
-  const today = new Date();
+  const todayDate = new Date();
   const weekDays = Array.from({ length: 7 }, (_, i) => {
-    const d = new Date(today);
+    const d = new Date(todayDate);
     d.setDate(d.getDate() - (6 - i));
     const dateStr = d.toISOString().split('T')[0];
     const hours = data.studyLogs.filter(l => l.date === dateStr).reduce((s, l) => s + l.hoursStudied, 0);
