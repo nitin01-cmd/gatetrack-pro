@@ -234,6 +234,11 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       }));
       await supabase.from('revisions').insert(revs);
     }
+    // Celebrate if just completed
+    if (old && old.status !== 'Completed' && lecture.status === 'Completed') {
+      triggerConfetti();
+      toast.success(getCelebrationMessage());
+    }
     loadAll();
   }, [user, data.lectures, loadAll]);
 
