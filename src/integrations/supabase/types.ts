@@ -14,7 +14,242 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      lectures: {
+        Row: {
+          completed_date: string | null
+          created_at: string
+          difficulty: number
+          id: string
+          last_revision: string | null
+          lecture_number: number
+          next_revision: string | null
+          pyq_solved: boolean
+          revision_count: number
+          status: string
+          subject: string
+          topic: string
+          user_id: string
+        }
+        Insert: {
+          completed_date?: string | null
+          created_at?: string
+          difficulty?: number
+          id?: string
+          last_revision?: string | null
+          lecture_number: number
+          next_revision?: string | null
+          pyq_solved?: boolean
+          revision_count?: number
+          status?: string
+          subject: string
+          topic: string
+          user_id: string
+        }
+        Update: {
+          completed_date?: string | null
+          created_at?: string
+          difficulty?: number
+          id?: string
+          last_revision?: string | null
+          lecture_number?: number
+          next_revision?: string | null
+          pyq_solved?: boolean
+          revision_count?: number
+          status?: string
+          subject?: string
+          topic?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          email: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      pyqs: {
+        Row: {
+          created_at: string
+          id: string
+          revision_needed: boolean
+          solved: boolean
+          subject: string
+          topic: string
+          user_id: string
+          year: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          revision_needed?: boolean
+          solved?: boolean
+          subject: string
+          topic: string
+          user_id: string
+          year: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          revision_needed?: boolean
+          solved?: boolean
+          subject?: string
+          topic?: string
+          user_id?: string
+          year?: number
+        }
+        Relationships: []
+      }
+      revisions: {
+        Row: {
+          completed: boolean
+          completed_date: string | null
+          created_at: string
+          day_interval: number
+          due_date: string
+          id: string
+          lecture_id: string
+          notes: string
+          revision_number: number
+          status: string
+          subject: string
+          topic: string
+          user_id: string
+        }
+        Insert: {
+          completed?: boolean
+          completed_date?: string | null
+          created_at?: string
+          day_interval: number
+          due_date: string
+          id?: string
+          lecture_id: string
+          notes?: string
+          revision_number: number
+          status?: string
+          subject: string
+          topic: string
+          user_id: string
+        }
+        Update: {
+          completed?: boolean
+          completed_date?: string | null
+          created_at?: string
+          day_interval?: number
+          due_date?: string
+          id?: string
+          lecture_id?: string
+          notes?: string
+          revision_number?: number
+          status?: string
+          subject?: string
+          topic?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "revisions_lecture_id_fkey"
+            columns: ["lecture_id"]
+            isOneToOne: false
+            referencedRelation: "lectures"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      study_logs: {
+        Row: {
+          created_at: string
+          date: string
+          hours_studied: number
+          id: string
+          notes: string
+          subject: string
+          topic: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          hours_studied?: number
+          id?: string
+          notes?: string
+          subject: string
+          topic: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          hours_studied?: number
+          id?: string
+          notes?: string
+          subject?: string
+          topic?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      subject_settings: {
+        Row: {
+          id: string
+          subject: string
+          total_lectures: number
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          subject: string
+          total_lectures?: number
+          user_id: string
+        }
+        Update: {
+          id?: string
+          subject?: string
+          total_lectures?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_streaks: {
+        Row: {
+          last_study_date: string | null
+          study_streak: number
+          user_id: string
+        }
+        Insert: {
+          last_study_date?: string | null
+          study_streak?: number
+          user_id: string
+        }
+        Update: {
+          last_study_date?: string | null
+          study_streak?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
