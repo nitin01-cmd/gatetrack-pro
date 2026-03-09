@@ -325,8 +325,8 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
         last_revision: today,
       }).eq('id', rev.lectureId);
     }
+    toast.success("Revision completed! Keep up the great work! ✅");
     loadAll();
-  }, [data.revisions, data.lectures, loadAll]);
 
   const skipRevision = useCallback(async (id: string) => {
     await supabase.from('revisions').update({
