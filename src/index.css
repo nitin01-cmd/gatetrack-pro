@@ -6,26 +6,26 @@
 
 @layer base {
   :root {
-    --background: 220 14% 96%;
-    --foreground: 220 20% 10%;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 7%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 220 20% 10%;
+    --card: 0 0% 96%;
+    --card-foreground: 0 0% 7%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 20% 10%;
+    --popover-foreground: 0 0% 7%;
 
-    --primary: 172 66% 50%;
-    --primary-foreground: 220 20% 5%;
+    --primary: 0 65% 51%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 14% 92%;
-    --secondary-foreground: 220 20% 10%;
+    --secondary: 0 100% 66%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 220 14% 94%;
-    --muted-foreground: 220 10% 46%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
 
-    --accent: 172 66% 50%;
-    --accent-foreground: 220 20% 5%;
+    --accent: 0 65% 51%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
@@ -36,76 +36,25 @@
     --warning: 38 92% 50%;
     --warning-foreground: 0 0% 100%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 172 66% 50%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 0 65% 51%;
 
     --radius: 0.75rem;
 
     --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 220 10% 40%;
-    --sidebar-primary: 172 66% 50%;
-    --sidebar-primary-foreground: 220 20% 5%;
-    --sidebar-accent: 220 14% 96%;
-    --sidebar-accent-foreground: 220 20% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 172 66% 50%;
+    --sidebar-foreground: 0 0% 45%;
+    --sidebar-primary: 0 65% 51%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 96%;
+    --sidebar-accent-foreground: 0 0% 7%;
+    --sidebar-border: 0 0% 92%;
+    --sidebar-ring: 0 65% 51%;
 
-    --chart-1: 172 66% 50%;
-    --chart-2: 262 60% 55%;
+    --chart-1: 0 65% 51%;
+    --chart-2: 0 100% 66%;
     --chart-3: 38 92% 50%;
-    --chart-4: 0 72% 51%;
-    --chart-5: 220 70% 55%;
-  }
-
-  .dark {
-    --background: 224 20% 7%;
-    --foreground: 210 20% 92%;
-
-    --card: 224 18% 10%;
-    --card-foreground: 210 20% 92%;
-
-    --popover: 224 18% 10%;
-    --popover-foreground: 210 20% 92%;
-
-    --primary: 172 66% 50%;
-    --primary-foreground: 220 20% 5%;
-
-    --secondary: 224 16% 14%;
-    --secondary-foreground: 210 20% 92%;
-
-    --muted: 224 16% 14%;
-    --muted-foreground: 215 15% 55%;
-
-    --accent: 172 66% 50%;
-    --accent-foreground: 220 20% 5%;
-
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 100%;
-
-    --success: 142 71% 45%;
-    --success-foreground: 0 0% 100%;
-
-    --warning: 38 92% 50%;
-    --warning-foreground: 0 0% 100%;
-
-    --border: 224 14% 16%;
-    --input: 224 14% 16%;
-    --ring: 172 66% 50%;
-
-    --sidebar-background: 224 18% 8%;
-    --sidebar-foreground: 215 15% 55%;
-    --sidebar-primary: 172 66% 50%;
-    --sidebar-primary-foreground: 220 20% 5%;
-    --sidebar-accent: 224 16% 12%;
-    --sidebar-accent-foreground: 210 20% 92%;
-    --sidebar-border: 224 14% 14%;
-    --sidebar-ring: 172 66% 50%;
-
-    --chart-1: 172 66% 50%;
-    --chart-2: 262 60% 55%;
-    --chart-3: 38 92% 50%;
-    --chart-4: 0 72% 51%;
+    --chart-4: 142 71% 45%;
     --chart-5: 220 70% 55%;
   }
 }
@@ -138,9 +87,28 @@
 
 @layer utilities {
   .glass-card {
-    @apply bg-card/80 backdrop-blur-xl border border-border/50 shadow-sm;
+    @apply bg-card border border-border shadow-sm;
   }
   .stat-glow {
-    box-shadow: 0 0 20px -5px hsl(var(--primary) / 0.15);
+    box-shadow: 0 4px 20px -5px hsl(var(--primary) / 0.1);
   }
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary/85 transition-all duration-200;
+  }
+}
+
+/* Confetti keyframes */
+@keyframes confetti-fall {
+  0% { transform: translateY(-100%) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+@keyframes checkmark-draw {
+  0% { stroke-dashoffset: 100; }
+  100% { stroke-dashoffset: 0; }
+}
+
+.animate-checkmark {
+  stroke-dasharray: 100;
+  animation: checkmark-draw 0.5s ease-out forwards;
 }

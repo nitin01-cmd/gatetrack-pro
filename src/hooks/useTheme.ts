@@ -1,18 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 export function useTheme() {
-  const [isDark, setIsDark] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('gatetrack-theme') === 'dark' ||
-        (!localStorage.getItem('gatetrack-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
-    }
-    return true;
-  });
-
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', isDark);
-    localStorage.setItem('gatetrack-theme', isDark ? 'dark' : 'light');
-  }, [isDark]);
+    // Ensure light mode is always active
+    document.documentElement.classList.remove('dark');
+    localStorage.setItem('gatetrack-theme', 'light');
+  }, []);
 
-  return { isDark, toggle: () => setIsDark(p => !p) };
+  return { isDark: false };
 }

@@ -3,8 +3,31 @@ import { AppData, Lecture, PYQ, StudyLog, Revision, SubjectSettings, SUBJECTS } 
 import { addDays, getToday } from '@/lib/store';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
+import { toast } from 'sonner';
+import confetti from 'canvas-confetti';
 
 const REVISION_INTERVALS = [1, 7, 21, 60];
+
+const celebrationMessages = [
+  "Great work! Another step closer to your GATE goal. 🎯",
+  "Awesome! Keep up the momentum! 💪",
+  "You're crushing it! Stay consistent! 🔥",
+  "Excellent progress! Every lecture counts! ✨",
+  "Well done! Success is built one step at a time! 🚀",
+];
+
+function getCelebrationMessage() {
+  return celebrationMessages[Math.floor(Math.random() * celebrationMessages.length)];
+}
+
+function triggerConfetti() {
+  confetti({
+    particleCount: 80,
+    spread: 60,
+    origin: { y: 0.7 },
+    colors: ['#D32F2F', '#FF5252', '#4CAF50', '#FFC107'],
+  });
+}
 
 const defaultSettings: SubjectSettings[] = SUBJECTS.map(subject => ({
   subject,
@@ -165,8 +188,12 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       }));
       await supabase.from('revisions').insert(revs);
     }
+    // Celebrate if completed
+    if (lecture.status === 'Completed') {
+      triggerConfetti();
+      toast.success(getCelebrationMessage());
+    }
     loadAll();
-  }, [user, loadAll]);
 
   const updateLecture = useCallback(async (lecture: Lecture) => {
     if (!user) return;
@@ -206,6 +233,11 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
         completed_date: null as string | null,
       }));
       await supabase.from('revisions').insert(revs);
+    }
+    // Celebrate if just completed
+    if (old && old.status !== 'Completed' && lecture.status === 'Completed') {
+      triggerConfetti();
+      toast.success(getCelebrationMessage());
     }
     loadAll();
   }, [user, data.lectures, loadAll]);
@@ -293,8 +325,8 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
         last_revision: today,
       }).eq('id', rev.lectureId);
     }
+    toast.success("Revision completed! Keep up the great work! ✅");
     loadAll();
-  }, [data.revisions, data.lectures, loadAll]);
 
   const skipRevision = useCallback(async (id: string) => {
     await supabase.from('revisions').update({
