@@ -188,8 +188,12 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       }));
       await supabase.from('revisions').insert(revs);
     }
+    // Celebrate if completed
+    if (lecture.status === 'Completed') {
+      triggerConfetti();
+      toast.success(getCelebrationMessage());
+    }
     loadAll();
-  }, [user, loadAll]);
 
   const updateLecture = useCallback(async (lecture: Lecture) => {
     if (!user) return;
