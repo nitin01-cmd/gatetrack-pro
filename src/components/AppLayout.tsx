@@ -70,11 +70,30 @@ export default function AppLayout() {
             ))}
           </nav>
 
-          {/* Theme toggle */}
-          <div className="px-3 py-4 border-t border-sidebar-border">
+          {/* User + Theme + Sign out */}
+          <div className="px-3 py-4 border-t border-sidebar-border space-y-1">
+            {profile && (
+              <div className="flex items-center gap-3 px-3 py-2">
+                {profile.avatar_url ? (
+                  <img src={profile.avatar_url} alt="" className="w-7 h-7 rounded-full" />
+                ) : (
+                  <div className="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center text-xs font-bold text-primary">
+                    {(profile.display_name || profile.email || '?')[0].toUpperCase()}
+                  </div>
+                )}
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-foreground truncate">{profile.display_name || 'User'}</p>
+                  <p className="text-xs text-muted-foreground truncate">{profile.email}</p>
+                </div>
+              </div>
+            )}
             <button onClick={toggle} className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-sidebar-foreground hover:bg-sidebar-accent transition-colors">
               {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
               {isDark ? 'Light Mode' : 'Dark Mode'}
+            </button>
+            <button onClick={signOut} className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-sidebar-foreground hover:bg-sidebar-accent transition-colors">
+              <LogOut className="w-4 h-4" />
+              Sign Out
             </button>
           </div>
         </div>
