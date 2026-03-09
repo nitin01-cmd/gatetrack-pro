@@ -1,10 +1,9 @@
 import { NavLink, Outlet } from 'react-router-dom';
 import { 
   LayoutDashboard, BookOpen, FileQuestion, PenLine, 
-  BarChart3, Settings, Menu, X, Moon, Sun, Zap, CalendarCheck, LogOut
+  BarChart3, Settings, Menu, X, Zap, CalendarCheck, LogOut
 } from 'lucide-react';
 import { useState } from 'react';
-import { useTheme } from '@/hooks/useTheme';
 import { useAuth } from '@/hooks/useAuth';
 
 const navItems = [
@@ -19,14 +18,13 @@ const navItems = [
 
 export default function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { isDark, toggle } = useTheme();
   const { signOut, profile } = useAuth();
 
   return (
     <div className="flex h-screen overflow-hidden bg-background">
       {/* Mobile overlay */}
       {sidebarOpen && (
-        <div className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm lg:hidden" onClick={() => setSidebarOpen(false)} />
+        <div className="fixed inset-0 z-40 bg-foreground/20 backdrop-blur-sm lg:hidden" onClick={() => setSidebarOpen(false)} />
       )}
 
       {/* Sidebar */}
@@ -59,7 +57,7 @@ export default function AppLayout() {
                 className={({ isActive }) => `
                   flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150
                   ${isActive 
-                    ? 'bg-primary/10 text-primary' 
+                    ? 'bg-primary text-primary-foreground' 
                     : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
                   }
                 `}
@@ -70,7 +68,7 @@ export default function AppLayout() {
             ))}
           </nav>
 
-          {/* User + Theme + Sign out */}
+          {/* User + Sign out */}
           <div className="px-3 py-4 border-t border-sidebar-border space-y-1">
             {profile && (
               <div className="flex items-center gap-3 px-3 py-2">
@@ -87,11 +85,7 @@ export default function AppLayout() {
                 </div>
               </div>
             )}
-            <button onClick={toggle} className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-sidebar-foreground hover:bg-sidebar-accent transition-colors">
-              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-              {isDark ? 'Light Mode' : 'Dark Mode'}
-            </button>
-            <button onClick={signOut} className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-sidebar-foreground hover:bg-sidebar-accent transition-colors">
+            <button onClick={signOut} className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-sidebar-foreground hover:bg-primary hover:text-primary-foreground transition-colors">
               <LogOut className="w-4 h-4" />
               Sign Out
             </button>
@@ -102,7 +96,7 @@ export default function AppLayout() {
       {/* Main */}
       <main className="flex-1 overflow-y-auto">
         {/* Mobile header */}
-        <div className="sticky top-0 z-30 flex items-center gap-3 px-4 py-3 bg-background/80 backdrop-blur-lg border-b border-border lg:hidden">
+        <div className="sticky top-0 z-30 flex items-center gap-3 px-4 py-3 bg-background border-b border-border lg:hidden">
           <button onClick={() => setSidebarOpen(true)} className="text-muted-foreground hover:text-foreground">
             <Menu className="w-5 h-5" />
           </button>
