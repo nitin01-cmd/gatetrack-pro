@@ -20,6 +20,7 @@ const navItems = [
 export default function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { isDark, toggle } = useTheme();
+  const { signOut, profile } = useAuth();
 
   return (
     <div className="flex h-screen overflow-hidden bg-background">
